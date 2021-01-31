@@ -1,0 +1,10 @@
+{
+  "short_name": "Roll 100",
+  "name": "Roll 100",
+  "icons": [
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
