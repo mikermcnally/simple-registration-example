@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
   content: {
@@ -14,5 +14,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   root: {
     display: 'flex',
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
   },
 }));

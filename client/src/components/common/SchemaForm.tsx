@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Container, FormLabel, Paper } from '@material-ui/core';
+import {
+  Backdrop,
+  Button,
+  CircularProgress,
+  Container,
+  FormLabel,
+  Paper,
+} from '@material-ui/core';
 import Form from '@rjsf/material-ui';
 import { JSONSchema7 } from 'json-schema';
 import { useStyles } from '../../hooks/use_styles';
@@ -19,7 +26,9 @@ export default function SchemaForm({
 }: SchemaFormProps) {
   const classes = useStyles();
   const [model, setModel] = useState({} as any);
-  const [pending, setPending] = useState<boolean>(false);
+  const [status, setStatus] = useState<'new' | 'pending' | 'error' | 'success'>(
+    'new',
+  );
 
   return (
     <Container className={classes.container} maxWidth="xs">
@@ -33,26 +42,31 @@ export default function SchemaForm({
             setModel(formData);
           }}
           onSubmit={async () => {
-            try {            
-              setPending(true);
+            try {
+              setStatus('pending');
               await submit(model);
+              setStatus('success');
               onSuccess();
             } catch (err) {
-              setPending(false);
+              setStatus('error');
               console.log(err);
             }
           }}
+          disabled={status === 'pending' || status === 'success'}
         >
           <Button
             color="primary"
             variant="contained"
             type="submit"
-            disabled={pending}
+            disabled={status === 'pending' || status === 'success'}
           >
-            Submit
+            {status === 'success' ? 'Success!' : 'Submit'}
           </Button>
         </Form>
       </Paper>
+      <Backdrop className={classes.backdrop} open={status === 'pending'}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Container>
   );
 }

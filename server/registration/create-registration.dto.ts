@@ -2,9 +2,9 @@ import {
   IsIn,
   Length,
   Equals,
-  IsPostalCode,
   IsString,
   IsOptional,
+  Matches,
 } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 
@@ -97,11 +97,8 @@ export class CreateRegistrationDto {
   @JSONSchema({ title: 'State' })
   state: string;
 
-  @IsPostalCode('US', { message: 'Must be a valid 5 or 9 digit zip code' })
-  @JSONSchema({
-    title: 'Zip',
-    pattern: '(^d{5}$)|(^d{5}-d{4}$)',
-  })
+  @Matches(/(^\d{5}$)|(^\d{5}-?\d{4}$)/)
+  @JSONSchema({ title: 'Zip' })
   zip: string;
 
   @Equals('US')
